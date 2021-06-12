@@ -12,5 +12,5 @@ def test_board():
         board.random_move(X)
         board.random_move(O)
 
-    logging.info(board)
+    logging.info(f'\n{board}')
     logging.info(board.check_win())

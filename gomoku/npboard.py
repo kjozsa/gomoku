@@ -6,16 +6,12 @@ import numpy as np
 from gomoku import *
 
 
-def board_str(b):
-    return '\n'.join([''.join(x) for x in b])
-
-
 class Board:
     def __init__(self):
-        self.board = np.full((10, 10), EMPTY)
+        self.board = np.full((SIZE, SIZE), EMPTY)
 
     def __str__(self):
-        return board_str(self.board.tolist())
+        return '\n'.join([''.join(x) for x in self.board.tolist()])
 
     def move(self, x, y, player, debug=False):
         assert player in [O, X]
@@ -30,10 +26,10 @@ class Board:
         return self.move(x, y, player, debug)
 
     def check_win(self, y, x, debug=False):
-        row = self.board[y, 0:10]
-        column = self.board[0:10, x]
+        row = self.board[y, 0:SIZE]
+        column = self.board[0:SIZE, x]
         diagonal1 = self.board.diagonal(x - y)
-        diagonal2 = np.rot90(self.board).diagonal(x - 9 + y)
+        diagonal2 = np.rot90(self.board).diagonal(x - SIZE + 1 + y)
         all = [''.join(x) for x in [row, column, diagonal1, diagonal2]]
 
         if debug:

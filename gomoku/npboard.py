@@ -8,7 +8,7 @@ from gomoku import *
 
 class Board:
     def __init__(self):
-        self.board = np.full((10, 10), '.')
+        self.board = np.full((10, 10), EMPTY)
 
     def move(self, x, y, player, debug=False):
         assert player in [O, X]
@@ -16,7 +16,7 @@ class Board:
         return self.check_win(x, y, debug)
 
     def valid_moves(self):
-        return np.argwhere(self.board == '.')
+        return np.argwhere(self.board == EMPTY)
 
     def random_move(self, player, debug=False):
         x, y = choice(self.valid_moves())

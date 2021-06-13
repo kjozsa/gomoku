@@ -6,9 +6,16 @@ import numpy as np
 from gomoku import *
 
 
+def board_str(b):
+    return '\n'.join([''.join(x) for x in b])
+
+
 class Board:
     def __init__(self):
         self.board = np.full((10, 10), EMPTY)
+
+    def __str__(self):
+        return board_str(self.board.tolist())
 
     def move(self, x, y, player, debug=False):
         assert player in [O, X]

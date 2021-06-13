@@ -6,24 +6,6 @@ import numpy as np
 from gomoku import *
 
 
-def rotate45(matrix):
-    n = len(matrix)
-    result = []
-    ctr = 0
-    while ctr < 2 * n - 1:
-        result += ['.'] * abs(n - ctr - 1)
-        lst = []
-
-        for i in range(n):
-            for j in range(n):
-                if i + j == ctr:
-                    lst.append(matrix[i][j])
-        lst.reverse()
-        result += [*lst]
-        ctr += 1
-    return result
-
-
 def board_str(b):
     return '\n'.join([''.join(x) for x in b])
 

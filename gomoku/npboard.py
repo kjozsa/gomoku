@@ -6,17 +6,18 @@ import numpy as np
 from gomoku import *
 
 
-def rotate45(n, m, li):
+def rotate45(matrix):
+    n = len(matrix)
     result = []
     ctr = 0
     while ctr < 2 * n - 1:
         result += ['.'] * abs(n - ctr - 1)
         lst = []
 
-        for i in range(m):
+        for i in range(n):
             for j in range(n):
                 if i + j == ctr:
-                    lst.append(li[i][j])
+                    lst.append(matrix[i][j])
         lst.reverse()
         result += [*lst]
         ctr += 1
@@ -47,13 +48,14 @@ class Board:
 
     def check_win(self):
         s = self.__str__()
-        t = str(self.board.transpose())
+        t = board_str(self.board.transpose().tolist())
+        r1 = board_str(np.array(rotate45(self.board)).reshape(19, -1))
+        r2 = board_str(np.array(rotate45(np.rot90(self.board))).reshape(19, -1))
+        boards = s + t + r1 + r2
 
-        r1 = board_str(np.array(rotate45(10, 10, self.board)).reshape(19, -1))
-
-        if X * 5 in s + t + r1:
+        if X * 5 in boards:
             return X
-        elif O * 5 in s + t + r1:
+        elif O * 5 in boards:
             return O
         else:
             return None

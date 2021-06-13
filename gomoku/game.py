@@ -14,8 +14,7 @@ class Game:
         try:
             won = None
             while won is None:
-                self.board.random_move(self.next)
-                won = self.board.check_win()
+                won = self.board.random_move(self.next)
                 self.next = O if self.next == X else X
 
             self.score[won] += 1

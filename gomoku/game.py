@@ -4,7 +4,7 @@ from gomoku.npboard import *
 class Game:
     def __init__(self):
         self.score = {X: 0, O: 0}
-        self.board = None
+        self.board = Board()
         self.next = X
 
     def __repr__(self):
@@ -12,8 +12,8 @@ class Game:
 
     def play(self):
         self.board = Board()
+        won = None
         try:
-            won = None
             while won is None:
                 won = self.board.random_move(self.next)
                 self.next = O if self.next == X else X

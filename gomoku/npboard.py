@@ -9,6 +9,7 @@ from gomoku import *
 class Board:
     def __init__(self):
         self.board = np.full((SIZE, SIZE), EMPTY)
+        self.won = None
 
     def __str__(self):
         return '\n'.join([''.join(x) for x in self.board.tolist()])
@@ -41,8 +42,10 @@ class Board:
             logging.debug(f"all: {all}")
 
         if any(X * 5 in z for z in all):
-            return X
+            self.won = X
         elif any(O * 5 in z for z in all):
-            return O
+            self.won = O
         else:
-            return None
+            self.won = None
+
+        return self.won

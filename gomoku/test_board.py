@@ -6,7 +6,7 @@ from gomoku.npboard import Board
 
 def test_board():
     board = Board()
-    assert len(board.valid_moves()) == 100
+    assert len(board.valid_moves()) == SIZE * SIZE
 
     won = None
     for i in range(1, 30):

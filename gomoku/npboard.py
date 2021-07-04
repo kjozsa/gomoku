@@ -15,6 +15,7 @@ class Board:
 
     def move(self, x, y, player, debug=False):
         assert player in [O, X]
+        assert self.board[x][y] == EMPTY
         self.board[x][y] = player
         return self.check_win(x, y, debug)
 

@@ -13,5 +13,6 @@ def onehot(board):
 
     onehot_encoder = OneHotEncoder(sparse=False)
     integer_encoded = integer_encoded.reshape(len(integer_encoded), 1)
-    onehot_encoded = onehot_encoder.fit_transform(integer_encoded)
-    logging.debug(f"onehot:\n{onehot_encoded}")
+    onehot_encoded = onehot_encoder.fit_transform(integer_encoded).reshape(-1)
+    logging.debug(f"onehot encoded:\n{onehot_encoded}")
+    return onehot_encoded

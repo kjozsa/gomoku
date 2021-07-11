@@ -1,5 +1,6 @@
 import logging
 from random import choice
+from typing import Any
 
 import numpy as np
 
@@ -7,9 +8,16 @@ from gomoku import *
 
 
 class Board:
+    last_move: tuple[Any, Any]
+
     def __init__(self):
-        self.board = np.full((SIZE, SIZE), EMPTY)
+        self.board = Board.empty_board()
         self.won = None
+        self.steps = 0
+
+    @staticmethod
+    def empty_board():
+        return np.full((SIZE, SIZE), EMPTY)
 
     def __str__(self):
         return '\n'.join([''.join(x) for x in self.board.tolist()])
@@ -18,6 +26,7 @@ class Board:
         assert player in [O, X]
         assert self.board[x][y] == EMPTY
         self.board[x][y] = player
+        self.steps += 1
         return self.check_win(x, y, debug)
 
     def valid_moves(self):
@@ -25,6 +34,7 @@ class Board:
 
     def random_move(self, player, debug=False):
         x, y = choice(self.valid_moves())
+        self.last_move = (x, y)
         return self.move(x, y, player, debug)
 
     def check_win(self, y, x, debug=False):
@@ -42,8 +52,10 @@ class Board:
             logging.debug(f"all: {all}")
 
         if any(X * 5 in z for z in all):
+            logging.debug(f"won in {self.steps} steps")
             self.won = X
         elif any(O * 5 in z for z in all):
+            logging.debug(f"won in {self.steps} steps")
             self.won = O
         else:
             self.won = None

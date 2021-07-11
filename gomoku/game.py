@@ -12,12 +12,11 @@ class Game:
 
     def play(self):
         self.board = Board()
-        won = None
         try:
-            while won is None:
-                won = self.board.random_move(self.next)
+            while self.board.won is None:
+                self.board.random_move(self.next)
                 self.next = O if self.next == X else X
 
-            self.score[won] += 1
+            self.score[self.board.won] += 1
         except IndexError:
             logging.warning(f"Noone could win this game: \n{self.board}")

@@ -1,5 +1,3 @@
-import logging
-
 import numpy as np
 from keras.models import load_model
 from tensorflow import keras
@@ -8,6 +6,8 @@ from tensorflow.keras import layers
 from gomoku import *
 from gomoku.npboard import Board
 from gomoku.onehot import onehot
+
+logger = logging.getLogger(__name__)
 
 
 def create_train_data():
@@ -34,7 +34,7 @@ def create_train_data():
     train_x[O] = np.delete(train_x[O], -1, axis=0)
     train_x[X] = np.delete(train_x[X], -1, axis=0)
 
-    score = 100 - board.steps
+    score = SIZE * SIZE - board.steps
     train_y[O] = np.where(train_y[O] == '0', score, train_y[O])
     train_y[X] = np.where(train_y[X] == '0', score, train_y[X])
     train_y[O] = np.where(train_y[O] == ' ', 0, train_y[O])
@@ -61,10 +61,10 @@ def create_model():
 def train(model_path, batch_size=50, sample_size=100):
     try:
         model = load_model(model_path)
-        logging.info(f"pre-trained model loaded from {model_path}")
+        logger.info(f"pre-trained model loaded from {model_path}")
     except OSError:
         model = create_model()
-        logging.info("starting with new model")
+        logger.info("starting with new model")
 
     for batch in range(0, batch_size):
         train_x = None
@@ -80,5 +80,5 @@ def train(model_path, batch_size=50, sample_size=100):
                 pass  # game did not finish, skip the sample
 
         logs = model.train_on_batch(train_x, train_y, return_dict=True, reset_metrics=False)
-        logging.debug(f"batch #{batch}: {logs}")
+        logger.debug(f"batch #{batch}: {logs}")
         model.save(model_path)

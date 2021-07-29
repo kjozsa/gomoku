@@ -1,6 +1,7 @@
 numpy
-tensorflow
 pip-review
 pytest
+pyyaml
 sklearn
+tensorflow
 

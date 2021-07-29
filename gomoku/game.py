@@ -1,5 +1,6 @@
 from gomoku.npboard import *
 
+logger = logging.getLogger(__name__)
 
 class Game:
     def __init__(self):
@@ -19,4 +20,4 @@ class Game:
 
             self.score[self.board.won] += 1
         except IndexError:
-            logging.warning(f"Noone could win this game: \n{self.board}")
+            logger.warning(f"Noone could win this game: \n{self.board}")

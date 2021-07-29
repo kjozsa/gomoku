@@ -1,10 +1,11 @@
-import logging
 from random import choice
 from typing import Any
 
 import numpy as np
 
 from gomoku import *
+
+logger = logging.getLogger(__name__)
 
 
 class Board:
@@ -45,17 +46,17 @@ class Board:
         all = [''.join(x) for x in [row, column, diagonal1, diagonal2]]
 
         if debug:
-            logging.debug(f"row: {row}")
-            logging.debug(f"column: {column}")
-            logging.debug(f"diagonal1: {diagonal1}")
-            logging.debug(f"diagonal2: {diagonal2}")
-            logging.debug(f"all: {all}")
+            logger.debug(f"row: {row}")
+            logger.debug(f"column: {column}")
+            logger.debug(f"diagonal1: {diagonal1}")
+            logger.debug(f"diagonal2: {diagonal2}")
+            logger.debug(f"all: {all}")
 
         if any(X * 5 in z for z in all):
-            # logging.debug(f"won in {self.steps} steps")
+            logger.debug(f"won in {self.steps} steps")
             self.won = X
         elif any(O * 5 in z for z in all):
-            # logging.debug(f"won in {self.steps} steps")
+            logger.debug(f"won in {self.steps} steps")
             self.won = O
         else:
             self.won = None

@@ -1,0 +1,27 @@
+version: 1
+formatters:
+  simple:
+    format: '%(asctime)s [%(levelname)s] (%(threadName)s) %(name)s - %(message)s'
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: simple
+    stream: ext://sys.stdout
+  logfile:
+    class: logging.handlers.RotatingFileHandler
+    level: DEBUG
+    formatter: simple
+    filename: out.log
+    maxBytes: 50000000
+    encoding: utf8
+
+loggers:
+  gomoku.npboard:
+    level: INFO
+  gomoku.onehot:
+    level: WARNING
+
+root:
+  level: DEBUG
+  handlers: [console, logfile]

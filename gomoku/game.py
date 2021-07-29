@@ -2,11 +2,11 @@ from gomoku.npboard import *
 
 logger = logging.getLogger(__name__)
 
+
 class Game:
     def __init__(self):
         self.score = {X: 0, O: 0}
         self.board = Board()
-        self.next = X
 
     def __repr__(self):
         return f"{self.score[X] + self.score[O]} games: {self.score}"
@@ -15,8 +15,7 @@ class Game:
         self.board = Board()
         try:
             while self.board.won is None:
-                self.board.random_move(self.next)
-                self.next = O if self.next == X else X
+                self.board.random_move()
 
             self.score[self.board.won] += 1
         except IndexError:

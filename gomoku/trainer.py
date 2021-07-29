@@ -12,11 +12,10 @@ logger = logging.getLogger(__name__)
 def create_train_data():
     board = Board()
     train_x, train_y = {}, {}
-    current = X
 
     while board.won is None:
-        current = O if current == X else X
-        board.random_move(current)
+        current = board.current
+        board.random_move()
         (x, y) = board.last_move
 
         moved_board = Board.empty_board()
@@ -40,8 +39,8 @@ def create_train_data():
 
 def create_model():
     model = keras.Sequential([
-        layers.Dense(300, activation="relu"),
-        layers.Dense(300, activation="relu"),
+        layers.Dense(303, activation="relu"),
+        layers.Dense(303, activation="relu"),
         layers.Dense(150, activation="relu"),
         layers.Dense(150, activation="relu"),
         layers.Dense(100, activation="tanh"),

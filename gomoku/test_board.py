@@ -55,3 +55,14 @@ def test_win_diag2():
     board.move(4, 4, X)
     won = board.move(5, 5, X)
     assert won == X
+
+
+def test_move_alternately():
+    board = Board()
+    board.move(1, 1)
+    board.move(2, 2)
+    board.move(3, 3)
+    board.move(4, 4)
+    won = board.move(5, 5, X)
+    assert won is None
+    logging.debug(board)

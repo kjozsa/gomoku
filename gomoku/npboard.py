@@ -15,6 +15,7 @@ class Board:
         self.board = Board.empty_board()
         self.won = None
         self.steps = 0
+        self.current = X
 
     @staticmethod
     def empty_board():
@@ -23,9 +24,14 @@ class Board:
     def __str__(self):
         return '\n'.join([''.join(x) for x in self.board.tolist()])
 
-    def move(self, x, y, player, debug=False):
-        assert player in [O, X]
+    def move(self, x, y, player=None, debug=False):
+        assert player in [O, X, None]
         assert self.board[x][y] == EMPTY
+
+        if player is None:
+            player = self.current
+            self.current = X if self.current == O else O
+
         self.board[x][y] = player
         self.steps += 1
         return self.check_win(x, y, debug)
@@ -33,7 +39,7 @@ class Board:
     def valid_moves(self):
         return np.argwhere(self.board == EMPTY)
 
-    def random_move(self, player, debug=False):
+    def random_move(self, player=None, debug=False):
         x, y = choice(self.valid_moves())
         self.last_move = (x, y)
         return self.move(x, y, player, debug)
@@ -65,7 +71,12 @@ class Board:
 
     def onehot(self):
         from gomoku.onehot import onehot as hot
-        return hot(self.board.reshape(-1))
+        state = np.hstack((self.current, self.board.reshape(-1)))
+        return hot(state)
 
     def predict(self, model):
-        return model.predict(self.onehot().reshape((1, SIZE * SIZE * 3)))
+        p = model.predict(self.onehot().reshape((1, 3 + SIZE * SIZE * 3)))
+        p = p.reshape((SIZE, SIZE))
+        logger.info(p)
+        x, y = np.unravel_index(p.argmax(), p.shape)
+        return x, y

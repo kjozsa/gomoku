@@ -1,4 +1,6 @@
-pytest
 numpy
-snakeviz
-keras
+tensorflow
+pip-review
+pytest
+sklearn
+

@@ -1,13 +1,18 @@
 import logging
 
 import numpy as np
+from keras.models import load_model
+from tensorflow import keras
+from tensorflow.keras import layers
 
 from gomoku import *
 from gomoku.npboard import Board
 from gomoku.onehot import onehot
 
+MODEL_PATH = '../trained/gomoku.h5'
 
-def test_train():
+
+def test_train_data():
     board = Board()
     train_x = {}
     train_y = {}
@@ -41,7 +46,42 @@ def test_train():
     train_y[O] = train_y[O].astype(np.int32)
     train_y[X] = train_y[X].astype(np.int32)
 
-    logging.debug(train_x[O].shape)
-    logging.debug(train_y[O].shape)
-    logging.debug(train_y[O])
-    logging.debug(train_y[X])
+    return train_x, train_y
+
+
+def create_model():
+    model = keras.Sequential([
+        layers.Dense(300, activation="relu"),
+        layers.Dense(300, activation="relu"),
+        layers.Dense(150, activation="relu"),
+        layers.Dense(150, activation="relu"),
+        layers.Dense(100, activation="tanh"),
+    ])
+    model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
+    return model
+
+
+def test_train():
+    try:
+        model = load_model(MODEL_PATH)
+        logging.info(f"pre-trained model loaded from {MODEL_PATH}")
+    except OSError:
+        model = create_model()
+        logging.info("starting with new model")
+
+    for batch in range(1, 50):
+        train_x = None
+        train_y = None
+        for i in range(1, 100):
+            try:
+                x, y = test_train_data()
+                train_x = x[O] if train_x is None else np.vstack((train_x, x[O]))
+                train_y = y[O] if train_y is None else np.vstack((train_y, y[O]))
+                train_x = np.vstack((train_x, x[X]))
+                train_y = np.vstack((train_y, y[X]))
+            except IndexError:
+                pass  # game did not finish, skip the sample
+
+        logs = model.train_on_batch(train_x, train_y, return_dict=True, reset_metrics=False)
+        logging.debug(f"batch #{batch}: {logs}")
+        model.save(MODEL_PATH)

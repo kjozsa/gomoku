@@ -52,10 +52,10 @@ class Board:
             logging.debug(f"all: {all}")
 
         if any(X * 5 in z for z in all):
-            logging.debug(f"won in {self.steps} steps")
+            # logging.debug(f"won in {self.steps} steps")
             self.won = X
         elif any(O * 5 in z for z in all):
-            logging.debug(f"won in {self.steps} steps")
+            # logging.debug(f"won in {self.steps} steps")
             self.won = O
         else:
             self.won = None

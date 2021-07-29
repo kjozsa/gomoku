@@ -62,3 +62,7 @@ class Board:
             self.won = None
 
         return self.won
+
+    def onehot(self):
+        from gomoku.onehot import onehot as hot
+        return hot(self.board.reshape(-1))

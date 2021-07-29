@@ -3,9 +3,8 @@ import logging
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 
-from gomoku import X, O
-
 logger = logging.getLogger(__name__)
+
 
 def onehot(board):
     logger.debug(f"board: \n{board}")

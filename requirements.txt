@@ -4,4 +4,3 @@ pytest
 pyyaml
 sklearn
 tensorflow
-

@@ -8,12 +8,12 @@ from gomoku.onehot import onehot
 def test_onehot_finished():
     game = Game()
     game.play()
-    assert onehot(game.board.board).size == 3 * SIZE * SIZE
+    assert game.board.onehot().size == 3 * SIZE * SIZE
 
 
 def test_onehot_empty():
     game = Game()
-    assert onehot(game.board.board).size == 3 * SIZE * SIZE
+    assert game.board.onehot().size == 3 * SIZE * SIZE
 
 
 def test_onehot_simple():

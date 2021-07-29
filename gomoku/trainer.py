@@ -5,7 +5,6 @@ from tensorflow.keras import layers
 
 from gomoku import *
 from gomoku.npboard import Board
-from gomoku.onehot import onehot
 
 logger = logging.getLogger(__name__)
 
@@ -13,10 +12,6 @@ logger = logging.getLogger(__name__)
 def create_train_data():
     board = Board()
     train_x, train_y = {}, {}
-    train_x[O] = onehot(board.board.reshape(-1))
-    train_x[X] = onehot(board.board.reshape(-1))
-    train_y[O] = None
-    train_y[X] = None
     current = X
 
     while board.won is None:
@@ -28,11 +23,8 @@ def create_train_data():
         moved_board[x, y] = 0
         moved_board = moved_board.reshape(-1)
 
-        train_x[current] = np.vstack((train_x[current], onehot(board.board)))
-        train_y[current] = moved_board if train_y[current] is None else np.vstack((train_y[current], moved_board))
-
-    train_x[O] = np.delete(train_x[O], -1, axis=0)
-    train_x[X] = np.delete(train_x[X], -1, axis=0)
+        train_x[current] = board.onehot() if current not in train_x else np.vstack((train_x[current], board.onehot()))
+        train_y[current] = moved_board if current not in train_y else np.vstack((train_y[current], moved_board))
 
     score = SIZE * SIZE - board.steps
     train_y[O] = np.where(train_y[O] == '0', score, train_y[O])
@@ -42,7 +34,6 @@ def create_train_data():
 
     train_y[O] = train_y[O].astype(np.int32)
     train_y[X] = train_y[X].astype(np.int32)
-
     return train_x, train_y
 
 

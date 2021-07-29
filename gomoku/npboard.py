@@ -39,6 +39,9 @@ class Board:
     def valid_moves(self):
         return np.argwhere(self.board == EMPTY)
 
+    def is_valid_move(self, x, y):
+        return x is not None and self.board[x][y] == EMPTY
+
     def random_move(self, player=None, debug=False):
         x, y = choice(self.valid_moves())
         self.last_move = (x, y)
@@ -76,7 +79,13 @@ class Board:
 
     def predict(self, model):
         p = model.predict(self.onehot().reshape((1, 3 + SIZE * SIZE * 3)))
-        p = p.reshape((SIZE, SIZE))
-        logger.info(p)
-        x, y = np.unravel_index(p.argmax(), p.shape)
+        predictions = p.reshape((SIZE, SIZE))
+        logger.info(predictions)
+
+        x, y = None, None
+        while not self.is_valid_move(x, y):
+            x, y = np.unravel_index(predictions.argmax(), predictions.shape)
+            logger.info(f'############# {predictions[x][y]}')
+            predictions[x][y] = -100
+
         return x, y

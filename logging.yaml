@@ -19,6 +19,8 @@ handlers:
 loggers:
   gomoku.npboard:
     level: INFO
+  gomoku.trainer:
+    level: INFO
   gomoku.onehot:
     level: WARNING
 

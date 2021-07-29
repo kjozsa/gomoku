@@ -34,6 +34,7 @@ def create_train_data():
 
     train_y[O] = train_y[O].astype(np.int32)
     train_y[X] = train_y[X].astype(np.int32)
+    logger.debug(f"train_x shape {train_x[X].shape}, train_y shape {train_y[X].shape}")
     return train_x, train_y
 
 
@@ -71,5 +72,5 @@ def train(model_path, batch_size=50, sample_size=100):
                 pass  # game did not finish, skip the sample
 
         logs = model.train_on_batch(train_x, train_y, return_dict=True, reset_metrics=False)
-        logger.debug(f"batch #{batch}: {logs}")
+        logger.info(f"batch #{batch}: {logs}")
         model.save(model_path)

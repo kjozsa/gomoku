@@ -66,3 +66,6 @@ class Board:
     def onehot(self):
         from gomoku.onehot import onehot as hot
         return hot(self.board.reshape(-1))
+
+    def predict(self, model):
+        return model.predict(self.onehot().reshape((1, SIZE * SIZE * 3)))

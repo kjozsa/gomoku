@@ -6,4 +6,4 @@ def test_train():
 
 
 def test_train_gomoku_model():
-    train('../trained/gomoku2.h5', batch_size=5, sample_size=100)
+    train('../trained/gomoku2.h5', batch_size=1, sample_size=100)

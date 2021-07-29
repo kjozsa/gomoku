@@ -80,12 +80,16 @@ class Board:
     def predict(self, model):
         p = model.predict(self.onehot().reshape((1, 3 + SIZE * SIZE * 3)))
         predictions = p.reshape((SIZE, SIZE))
-        logger.info(predictions)
+        logger.debug(predictions)
 
         x, y = None, None
         while not self.is_valid_move(x, y):
             x, y = np.unravel_index(predictions.argmax(), predictions.shape)
-            logger.info(f'############# {predictions[x][y]}')
             predictions[x][y] = -100
 
         return x, y
+
+    def predict_move(self, model, player=None, debug=False):
+        x, y = self.predict(model)
+        self.last_move = (x, y)
+        return self.move(x, y, player, debug)

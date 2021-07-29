@@ -11,11 +11,14 @@ class Game:
     def __repr__(self):
         return f"{self.score[X] + self.score[O]} games: {self.score}"
 
-    def play(self):
+    def play(self, model=None):
         self.board = Board()
         try:
             while self.board.won is None:
-                self.board.random_move()
+                if model is None or self.board.current == X:
+                    self.board.random_move()
+                else:
+                    self.board.predict_move(model)
 
             self.score[self.board.won] += 1
         except IndexError:

@@ -5,6 +5,7 @@ import pytest
 from keras.models import load_model
 
 from gomoku.game import Game
+from gomoku.trainer import load_or_create_model
 
 
 def test_game():
@@ -20,10 +21,11 @@ def test_game():
 # @pytest.mark.skip(reason="too slow")
 def test_random_vs_trained():
     count = 100
-    model = load_model('../trained/test2.h5')
+    model_x = load_or_create_model('../trained/sqe-scale5.h5')
+    model_o = load_or_create_model('../trained/sqe-masked2.h5')
     game = Game()
     logging.info(f"benchmarking {count} games, random vs trained model..")
-    result = timeit.timeit(lambda: game.play(model), number=count)
+    result = timeit.timeit(lambda: game.play(model_x=model_x, model_o=model_o), number=count)
     logging.info(f"{count} games in {result} seconds")
     logging.info(game)
 

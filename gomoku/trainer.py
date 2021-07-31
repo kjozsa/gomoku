@@ -90,6 +90,6 @@ def create_model():
 
 def squared_error_masked(y_true, y_pred):
     """ Squared error of elements where y_true is not 0 """
-    scale_factor = 5
+    scale_factor = 1
     err = y_pred - (K.cast(y_true, y_pred.dtype) * scale_factor)
     return K.sum(K.square(err) * K.cast(K.not_equal(y_true, 0), y_pred.dtype), axis=-1)

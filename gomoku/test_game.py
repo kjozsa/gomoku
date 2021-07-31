@@ -21,10 +21,10 @@ def test_game():
 # @pytest.mark.skip(reason="too slow")
 def test_random_vs_trained():
     count = 100
-    model_x = load_or_create_model('../trained/sqe-scale5.h5')
-    model_o = load_or_create_model('../trained/sqe-masked2.h5')
+    model_x = load_or_create_model('../trained/sqe-masked2.h5')
+    model_o = load_or_create_model('../trained/sqe-masked3.h5')
     game = Game()
-    logging.info(f"benchmarking {count} games, random vs trained model..")
+    logging.info(f"benchmarking {count} games..")
     result = timeit.timeit(lambda: game.play(model_x=model_x, model_o=model_o), number=count)
     logging.info(f"{count} games in {result} seconds")
     logging.info(game)

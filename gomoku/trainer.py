@@ -32,6 +32,7 @@ def create_train_data(model_x=None, model_o=None):
         train_y[current] = moved_board if current not in train_y else np.vstack((train_y[current], moved_board))
 
     score = SIZE * SIZE - board.steps
+    score = round(pow(1.08, score) / 10)  # weighted
     score_x = score if board.won == X else -score
     score_o = score if board.won == O else -score
     train_y[O] = np.where(train_y[O] == '0', score_o, train_y[O])

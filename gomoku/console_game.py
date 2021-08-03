@@ -26,7 +26,7 @@ def input_valid_move(board, model=None):
 
 
 def console_game():
-    model = load_or_create_model('../trained/sqe-masked2.h5')
+    model = load_or_create_model('../trained/sqe-weighted2.h5')
     play_again = True
 
     while play_again:

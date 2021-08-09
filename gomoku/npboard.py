@@ -33,6 +33,7 @@ class Board:
             self.current = X if self.current == O else O
 
         self.board[x][y] = player
+        self.last_move = (x, y)
         self.steps += 1
         return self.check_win(x, y, debug)
 
